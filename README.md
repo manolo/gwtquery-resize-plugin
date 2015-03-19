@@ -10,6 +10,10 @@ http://www.backalleycoder.com/2013/03/18/cross-browser-event-based-element-resiz
 and
 http://benalman.com/projects/jquery-resize-plugin/
 
+## Demo
+
+http://manolo.github.io/gwtquery-resize-demo/index.html
+
 ## Usage
 
 1. You only have to drop the .jar file in your classpath, or add this dependency to your project:
