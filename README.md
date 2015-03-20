@@ -31,14 +31,13 @@ http://manolo.github.io/gwtquery-resize-demo/index.html
    // Bind resize event
    $(selector)
      .as(Resize)
-     .on("resize", new Function() {
-         public void f() {
-           console.log("Element resized");
-         }
-     });
+     .on("resize", new Function() {...});
 
    // Unbind
    $(selector).off("resize");
+
+   // You can use as well the GQuery `resize()` method.
+   $(selector).as(Resize).resize(new Function(){...});
    ```
 ## Browser compatibility
 

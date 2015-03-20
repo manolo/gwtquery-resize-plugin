@@ -114,8 +114,4 @@ public class Resize extends GQuery {
       return false;
     }
   }
-
-  public GQuery resize(Function f) {
-    return on(TYPE, f);
-  }
 }
