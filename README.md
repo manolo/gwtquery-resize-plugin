@@ -3,7 +3,9 @@
 ## Introduction
 A gwtQuery plugin which adds `resize` event support to any DOM element.
 
-It uses modern `animationFrame` or `timer` to check when any observed element changes its size.
+It uses a hidden html object to observe size changes in the container.
+It is mandatory that the container has a relative position, or any other
+style allowing absolute children to change when the container does.
 
 It is inspired on:
 http://www.backalleycoder.com/2013/03/18/cross-browser-event-based-element-resize-detection/
