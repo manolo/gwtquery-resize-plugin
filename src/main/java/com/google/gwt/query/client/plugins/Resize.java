@@ -67,7 +67,7 @@ public class Resize extends GQuery {
         }
 
         // Try to fix container position in case user didn't configure correctly
-        if ($o.width() == 0 || $o.width() > $e.width() || $e.height() == 0 || $o.height() > $e.height()) {
+        if ($(e).css("position", true).toLowerCase().matches("initial|static")) {
           $e.css(containerCss);
         }
       }
