@@ -49,13 +49,20 @@ public class Resize extends GQuery {
   public static class ResizeSpecialEvent implements SpecialEvent {
     private List<Element> elements = new ArrayList<Element>();
 
-    private void appendObserverObject(Element e) {
+    private void appendObserverObject(final Element e) {
       GQuery $e = $(e);
       if ($e.find(".resize-object").isEmpty()) {
-        GQuery $o = $(objectHtml);
+        final GQuery $o = $(objectHtml);
         $o.on("load", new Function(){
+          Function f = new Function() {
+            public void f() {
+              $(e).trigger(RESIZE);
+            }
+          };
           public void f() {
-            $(this).on(RESIZE);
+              Element win = $(getStyleImpl().getContentDocument($o.get(0))).prop("defaultView");
+              $(win).off(RESIZE, f).on(RESIZE, f);
+              f.f();
           }
         });
         if (browser.msie || browser.mozilla) {
@@ -74,7 +81,7 @@ public class Resize extends GQuery {
     }
 
     private void removeObserverObject(Element e) {
-      $(e).find(".resize-object").off(RESIZE).remove();
+      if (isResizableElement(e)) $(e).find(".resize-object").off(RESIZE).remove();
     }
 
     @Override
@@ -92,18 +99,7 @@ public class Resize extends GQuery {
 
     @Override
     public boolean setup(final Element e) {
-      if (!JsUtils.isWindow(e) && e.getNodeType() == Node.ELEMENT_NODE && !elements.contains(e)) {
-        if (e.getTagName().toLowerCase().matches("iframe|object")) {
-          Element win = $(getStyleImpl().getContentDocument(e)).prop("defaultView");
-          $(win).on(RESIZE, new Function() {
-            public void f() {
-              $(e).parent().trigger(RESIZE);
-            }
-          });
-        } else {
-          appendObserverObject(e);
-        }
-      }
+      if (isResizableElement(e)) appendObserverObject(e);
       return false;
     }
 
@@ -111,6 +107,10 @@ public class Resize extends GQuery {
     public boolean tearDown(Element e) {
       removeObserverObject(e);
       return false;
+    }
+
+    private boolean isResizableElement(Element e) {
+      return !JsUtils.isWindow(e) && e.getNodeType() == Node.ELEMENT_NODE && !elements.contains(e);
     }
   }
 }
